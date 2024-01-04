@@ -1,8 +1,8 @@
 import time
 from bs4 import BeautifulSoup
-import requests
 import json
 import re
+from security import safe_requests
 
 example_board = [[0, 6, 4, 8, 7, 0, 0, 0, 9], [0, 0, 3, 9, 0, 0, 2, 5, 0], [0, 0, 7, 3, 0, 2, 0, 0, 4], [0, 0, 2, 0, 5, 4, 0, 9, 0], [9, 0, 0, 0, 0, 0, 0, 0, 6], [0, 3, 0, 6, 9, 0, 1, 0, 0], [3, 0, 0, 4, 0, 8, 9, 0, 0], [0, 2, 9, 0, 0, 1, 4, 0, 0], [8, 0, 0, 0, 3, 9, 5, 6, 0]]
 def enter_nums(board):
@@ -14,7 +14,7 @@ def enter_nums(board):
 
 def scrape_puzzle(mode):
     url = 'https://www.nytimes.com/puzzles/sudoku/{}'.format(mode)
-    soup = BeautifulSoup(requests.get(url).content,"html.parser")
+    soup = BeautifulSoup(safe_requests.get(url).content,"html.parser")
 
     data = json.loads(re.sub('window.gameData = ', '', soup.find('script').contents[0]))
 
